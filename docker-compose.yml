@@ -2,15 +2,16 @@ elasticsearch:
   image: elasticsearch:latest
   command: elasticsearch -Des.network.host=0.0.0.0
   ports:
-    - "9200:9200"
-    - "9300:9300"
+    - "7020:9200"
+    - "7021:9300"
 logstash:
   image: logstash:latest
   command: logstash -f /etc/logstash/conf.d/logstash.conf
   volumes:
     - ./logstash/config:/etc/logstash/conf.d
+    - /root/docker-data/logstash/xiaoyuan-nginx-log:/var/log/nginx
   ports:
-    - "5000:5000"
+    - "7022:5000"
   links:
     - elasticsearch
 kibana:
@@ -18,6 +19,6 @@ kibana:
   volumes:
     - ./kibana/config/kibana.yml:/opt/kibana/config/kibana.yml
   ports:
-    - "5601:5601"
+    - "7023:5601"
   links:
     - elasticsearch
